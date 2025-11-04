@@ -272,21 +272,58 @@ st.set_page_config(page_title="AI Communication Assistant", page_icon="💬", la
 
 # CSS for message boxes and priority colors
 st.markdown("""
-    <style>
-    .main { padding: 1rem; }
-    .stButton>button { width: 100%; }
-    .message-box { padding: 1rem; border-radius: 0.6rem; margin-bottom: 1rem; background-color: #f7f9fc; }
-    .urgent { border-left: 5px solid #ff4b4b; }
-    .high { border-left: 5px solid #ffa500; }
-    .normal { border-left: 5px solid #00bfff; }
-    .low { border-left: 5px solid #32cd32; }
-    .follow_up { border-left: 5px solid #9370db; }
-    .tone-badge { font-weight: 600; padding: 2px 8px; border-radius: 6px; background: #efefef; margin-right: 6px; }
-    .tone-formal { background:#f0f3ff; }
-    .tone-friendly { background:#e8f9f0; }
-    .tone-neutral { background:#fff7e6; }
-    </style>
+<style>
+/* Base adjustments for dark/light themes */
+:root {
+    --box-bg-light: #f7f9fc;
+    --box-bg-dark: #1e1e1e;
+    --tone-formal-bg: #28359333;
+    --tone-friendly-bg: #2e7d3233;
+    --tone-neutral-bg: #fbc02d33;
+}
+[data-theme="light"] .message-box { background-color: var(--box-bg-light); color: #111; }
+[data-theme="dark"] .message-box { background-color: var(--box-bg-dark); color: #f5f5f5; }
+
+.main { padding: 1rem; }
+.stButton>button { width: 100%; }
+
+/* Message box and priority indicators */
+.message-box {
+    padding: 1rem;
+    border-radius: 0.6rem;
+    margin-bottom: 1rem;
+}
+.urgent { border-left: 5px solid #ff4b4b; }
+.high { border-left: 5px solid #ffa500; }
+.normal { border-left: 5px solid #00bfff; }
+.low { border-left: 5px solid #32cd32; }
+.follow_up { border-left: 5px solid #9370db; }
+
+/* Tone badges */
+.tone-badge {
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-right: 6px;
+    display: inline-block;
+}
+.tone-formal { background-color: var(--tone-formal-bg); color: #90caf9; }
+.tone-friendly { background-color: var(--tone-friendly-bg); color: #81c784; }
+.tone-neutral { background-color: var(--tone-neutral-bg); color: #fff176; }
+
+/* Remove white input boxes in dark mode */
+[data-theme="dark"] textarea, 
+[data-theme="dark"] input, 
+[data-theme="dark"] .stTextArea textarea {
+    background-color: #2c2c2c !important;
+    color: #fff !important;
+}
+[data-theme="dark"] .stMarkdown {
+    background: transparent !important;
+}
+</style>
 """, unsafe_allow_html=True)
+
 
 # session state init
 if 'chat_history' not in st.session_state:
